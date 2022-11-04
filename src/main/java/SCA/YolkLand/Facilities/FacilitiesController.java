@@ -12,11 +12,11 @@ import static SCA.YolkLand.Facilities.ResponseDTO.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/fac")
 public class FacilitiesController {
     private final FacilitiesProvider facilitiesProvider;
 
-    @GetMapping("/fac")
+    @GetMapping("/{code}")
     public FacRes getFacilitiesByCode(@RequestParam("code") Integer code) {
         Facilities fac = facilitiesProvider.getFacilitiesInfo(code);
         int hospitalCount = fac.getHosCount()+fac.getBigHosCount();

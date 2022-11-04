@@ -34,7 +34,7 @@ public class AreaController {
             @Parameter(name = "code", description = "상권구분코드", example = "2110824"),
     })
     @ResponseBody
-    @GetMapping("/totalInfo")
+    @GetMapping("/{code}")
     public AreaResultResponse getAreasByCode(@PathVariable("code") Integer code)throws NoSuchFieldException, IllegalAccessException {
         List<Areas> areas = areaProvider.getAreasInfo(code);
         if (areas.isEmpty())
