@@ -13,8 +13,13 @@ public class AreaProvider {
     @Autowired
     AreaRepository areaRepository;
 
-    public List<Areas> getAreasInfo(Integer code){
-        List<Areas> areas = areaRepository.findAreasByCode(code);
+    public List<Areas> getAreasInfo(Integer code, String cadName){
+        List<Areas> areas = areaRepository.findAreasByCodeAndCadName(code, cadName);
+        return areas;
+    }
+
+    public List<Areas> getAllAreasInfo(){
+        List<Areas> areas = areaRepository.findAll();
         return areas;
     }
 }

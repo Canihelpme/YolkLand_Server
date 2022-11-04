@@ -12,4 +12,8 @@ public interface AreaRepository extends JpaRepository<Areas, Integer> {
 
     List<Areas> findAreasByCode(int code);
 
+    List<Areas> findAreasByCodeAndCadName(int code, String codeName);
+
+    List<Areas> findAll();
+
 }
