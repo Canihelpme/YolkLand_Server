@@ -18,7 +18,7 @@ import static SCA.YolkLand.Apartments.ResponseDTOs.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/apt")
 public class AptController {
 
     private final AptProvider aptProvider;
@@ -35,7 +35,7 @@ public class AptController {
             @Parameter(name = "code", description = "상권구분코드", example = "2110824"),
     })
     @ResponseBody
-    @GetMapping("/apt")
+    @GetMapping("/{code}")
     public AptResultResponse getApartmentsByCode(@RequestParam("code") Integer code) throws NoSuchFieldException, IllegalAccessException {
         List<Apartments> apts = aptProvider.getApartmentsInfo(code);
         if (apts.isEmpty())
