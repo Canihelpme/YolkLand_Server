@@ -23,26 +23,48 @@ public class AreaController {
 
     private final AreaProvider areaProvider;
 
-    @Operation(summary = "Get Apartments Information", description = "상권 배후지의 아파트 정보 가져오기")
+    @Operation(summary = "Get Apartments Information", description = "상권 정보 가져오기")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "상권 배후지 아파트 조회 성공", content = @Content(schema = @Schema(implementation = ResponseDTOs.AptResultResponse.class))),
-            @ApiResponse(responseCode = "400", description = "상권 배후지 아파트 조회 실패"),
+            @ApiResponse(responseCode = "200", description = "상권 위치,정보 조회 성공", content = @Content(schema = @Schema(implementation = ResponseDTOs.AptResultResponse.class))),
+            @ApiResponse(responseCode = "400", description = "상권 조회 실패"),
             @ApiResponse(responseCode = "404", description = "NOT FOUND"),
             @ApiResponse(responseCode = "500", description = "서버 에러")
     })
     @Parameters({
-            @Parameter(name = "code", description = "상권구분코드", example = "2110824"),
+            @Parameter(name = "cadName", description = "상권구분코드명", example = "골목상권")
     })
     @ResponseBody
     @GetMapping("/{code}")
-    public AreaResultResponse getAreasByCode(@PathVariable("code") Integer code)throws NoSuchFieldException, IllegalAccessException {
-        List<Areas> areas = areaProvider.getAreasInfo(code);
+    public AreaResultResponse getAreasByCode(@PathVariable("code") Integer code, @RequestParam("cadName") String cadName)throws NoSuchFieldException, IllegalAccessException {
+        List<Areas> areas = areaProvider.getAreasInfo(code,cadName);
         if (areas.isEmpty())
         {
-            return new AreaResultResponse("상권 배후지 아파트 조회 실패", 400, null);
+            return new AreaResultResponse("상권 조회 실패", 400, null);
         } else {
             List<AreaDto> collect  = areas.stream().map(area -> new AreaDto(area)).collect(Collectors.toList());
             return new AreaResultResponse("상권 위치,정보 조회 성공", 200, collect);
         }
     }
+
+    @Operation(summary = "Get Apartments Information", description = "전체 상권 정보 가져오기")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "전체 상권 위치,정보 조회 성공", content = @Content(schema = @Schema(implementation = ResponseDTOs.AptResultResponse.class))),
+            @ApiResponse(responseCode = "400", description = "전체 상권 조회 실패"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND"),
+            @ApiResponse(responseCode = "500", description = "서버 에러")
+    })
+    @ResponseBody
+    @GetMapping("")
+    public AreaResultResponse getAreasByCode()throws NoSuchFieldException, IllegalAccessException {
+        List<Areas> areas = areaProvider.getAllAreasInfo();
+        if (areas.isEmpty())
+        {
+            return new AreaResultResponse("전체 상권 조회 실패", 400, null);
+        } else {
+            List<AreaDto> collect  = areas.stream().map(area -> new AreaDto(area)).collect(Collectors.toList());
+            return new AreaResultResponse("전체 상권 위치,정보 조회 성공", 200, collect);
+        }
+    }
+
+
 }
