@@ -34,7 +34,7 @@ public class ComController {
     })
     @ResponseBody
     @GetMapping("/{code}")
-    public ComMktResultResponse getComMarketsByCode(@RequestParam("code") Integer code) throws NoSuchFieldException, IllegalAccessException {
+    public ComMktResultResponse getComMarketsByCode(@PathVariable("code") Integer code) throws NoSuchFieldException, IllegalAccessException {
         List<ComMarketsByCodeDto2> comMarkets = comProvider.getComMarketsByCode(code);
         List<ComMarketsByCodeDto> collect = comMarkets.stream().map(c -> new ComMarketsByCodeDto(c)).collect(Collectors.toList());
         return new ComMktResultResponse("조회 성공", 200, collect);

@@ -36,7 +36,7 @@ public class AptController {
     })
     @ResponseBody
     @GetMapping("/{code}")
-    public AptResultResponse getApartmentsByCode(@RequestParam("code") Integer code) throws NoSuchFieldException, IllegalAccessException {
+    public AptResultResponse getApartmentsByCode(@PathVariable("code") Integer code) throws NoSuchFieldException, IllegalAccessException {
         List<Apartments> apts = aptProvider.getApartmentsInfo(code);
         if (apts.isEmpty())
         {
